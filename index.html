@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ammar – Video Editor & YouTube Specialist</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --bg: #f2ede4;
+  --ink: #0e0e0e;
+  --red: #d63c2a;
+  --tan: #e4ddd0;
+  --muted: #8a8278;
+  --border: rgba(14,14,14,0.12);
+  --white: #faf8f4;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'DM Mono', monospace;
+  overflow-x: hidden;
+}
+
+/* grain */
+body::after {
+  content:'';
+  position:fixed; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:999; mix-blend-mode:multiply;
+}
+
+/* ── HEADER ── */
+header {
+  display:grid;
+  grid-template-columns: 1fr auto;
+  align-items:end;
+  padding: 48px 64px 40px;
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.logo {
+  font-family:'Syne', sans-serif;
+  font-size: 13px;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.header-right {
+  font-size:11px;
+  color:var(--muted);
+  text-align:right;
+  line-height:1.8;
+  letter-spacing:.04em;
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 72px 64px 64px;
+  border-bottom: 1.5px solid var(--ink);
+  position:relative;
+  overflow:hidden;
+}
+
+.hero-eyebrow {
+  font-size:10px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--red);
+  margin-bottom:32px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.hero-eyebrow::before {
+  content:'';
+  display:inline-block;
+  width:28px; height:1.5px;
+  background:var(--red);
+}
+
+.hero-title {
+  font-family:'Syne', sans-serif;
+  font-size: clamp(52px, 8vw, 120px);
+  font-weight:800;
+  line-height:.9;
+  letter-spacing:-.02em;
+  margin-bottom:48px;
+}
+
+.hero-title em {
+  font-style:normal;
+  -webkit-text-stroke: 2px var(--ink);
+  color: transparent;
+}
+
+.hero-sub {
+  font-family:'Libre Baskerville', serif;
+  font-style:italic;
+  font-size:18px;
+  color:var(--muted);
+  max-width:560px;
+  line-height:1.65;
+}
+
+.hero-watermark {
+  position:absolute;
+  right:-20px; bottom:-30px;
+  font-family:'Syne', sans-serif;
+  font-size:220px;
+  font-weight:800;
+  color:rgba(14,14,14,.04);
+  letter-spacing:-.04em;
+  pointer-events:none;
+  user-select:none;
+  line-height:1;
+}
+
+/* ── STATS STRIP ── */
+.stats-strip {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.stat-cell {
+  padding: 40px 40px;
+  border-right: 1.5px solid var(--ink);
+  opacity:0;
+  transform:translateY(20px);
+  animation: rise .5s ease forwards;
+}
+.stat-cell:last-child { border-right:none; }
+.stat-cell:nth-child(1){animation-delay:.1s}
+.stat-cell:nth-child(2){animation-delay:.2s}
+.stat-cell:nth-child(3){animation-delay:.3s}
+.stat-cell:nth-child(4){animation-delay:.4s}
+
+@keyframes rise {
+  to { opacity:1; transform:translateY(0); }
+}
+
+.stat-num {
+  font-family:'Syne', sans-serif;
+  font-size:40px;
+  font-weight:800;
+  line-height:1;
+  margin-bottom:8px;
+}
+
+.stat-num .accent { color:var(--red); }
+
+.stat-label {
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  line-height:1.6;
+}
+
+/* ── SECTION WRAPPER ── */
+.section {
+  padding: 72px 64px;
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.section-tag {
+  font-size:10px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:48px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.section-tag::after {
+  content:'';
+  flex:1;
+  height:1px;
+  background:var(--border);
+}
+
+/* ── CHART ── */
+.chart-layout {
+  display:grid;
+  grid-template-columns:1fr 280px;
+  gap:56px;
+  align-items:start;
+}
+
+.chart-heading {
+  font-family:'Syne', sans-serif;
+  font-size:52px;
+  font-weight:800;
+  line-height:.92;
+  margin-bottom:32px;
+}
+
+.chart-heading em { font-style:normal; color:var(--red); }
+
+.chart-wrap {
+  height:200px;
+  margin-bottom:10px;
+  position:relative;
+}
+
+svg.chart { width:100%; height:100%; overflow:visible; }
+
+.chart-xaxis {
+  display:flex;
+  justify-content:space-between;
+  font-size:9px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-top:8px;
+}
+
+.peak-callout {
+  background:var(--ink);
+  color:var(--bg);
+  padding:28px 28px;
+  margin-bottom:16px;
+}
+
+.peak-callout .big {
+  font-family:'Syne', sans-serif;
+  font-size:36px;
+  font-weight:800;
+  line-height:1;
+  color:var(--red);
+  margin-bottom:8px;
+}
+
+.peak-callout p {
+  font-size:11px;
+  line-height:1.7;
+  color:rgba(242,237,228,.55);
+}
+
+.insight-box {
+  border: 1.5px solid var(--ink);
+  padding:24px 28px;
+}
+
+.insight-box .label {
+  font-size:9px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:12px;
+}
+
+.insight-box p {
+  font-size:12px;
+  line-height:1.75;
+  color:var(--muted);
+}
+
+/* ── VIDEOS TABLE ── */
+.table-head {
+  display:grid;
+  grid-template-columns: 32px 1fr 110px 90px 80px;
+  gap:20px;
+  padding:0 0 14px;
+  border-bottom: 1.5px solid var(--ink);
+  font-size:9px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.table-head > *:not(:nth-child(2)) { text-align:right; }
+.table-head > *:first-child { text-align:left; }
+
+.video-row {
+  display:grid;
+  grid-template-columns: 32px 1fr 110px 90px 80px;
+  gap:20px;
+  align-items:center;
+  padding:18px 0;
+  border-bottom:1px solid var(--border);
+  transition:background .15s;
+  cursor:default;
+}
+
+.video-row:hover { background:rgba(14,14,14,.03); margin:0 -16px; padding:18px 16px; }
+
+.v-rank {
+  font-family:'Syne', sans-serif;
+  font-size:20px;
+  font-weight:800;
+  color:rgba(14,14,14,.15);
+}
+
+.v-title { font-size:12px; line-height:1.5; color:var(--ink); }
+
+.v-views {
+  font-family:'Syne', sans-serif;
+  font-size:18px;
+  font-weight:700;
+  text-align:right;
+}
+
+.v-wt { font-size:11px; color:var(--muted); text-align:right; }
+
+.v-ctr { text-align:right; }
+
+.ctr-num {
+  font-size:12px;
+  font-weight:500;
+  color:var(--ink);
+}
+
+.ctr-bar {
+  height:3px;
+  background:rgba(14,14,14,.1);
+  border-radius:2px;
+  margin-top:5px;
+  overflow:hidden;
+}
+
+.ctr-fill {
+  height:100%;
+  background:var(--red);
+  border-radius:2px;
+}
+
+/* ── SERVICES ── */
+.services-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0;
+  border:1.5px solid var(--ink);
+}
+
+.service-card {
+  padding:40px 36px;
+  border-right:1.5px solid var(--ink);
+  transition:background .2s;
+}
+
+.service-card:last-child { border-right:none; }
+.service-card:hover { background:var(--tan); }
+
+.s-num {
+  font-size:10px;
+  color:var(--muted);
+  letter-spacing:.14em;
+  margin-bottom:24px;
+}
+
+.s-icon { font-size:28px; margin-bottom:16px; display:block; }
+
+.s-title {
+  font-family:'Syne', sans-serif;
+  font-size:22px;
+  font-weight:800;
+  margin-bottom:12px;
+}
+
+.s-desc {
+  font-size:11.5px;
+  line-height:1.8;
+  color:var(--muted);
+}
+
+.s-tools {
+  margin-top:20px;
+  font-size:9px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--red);
+}
+
+/* ── BIO ── */
+.bio-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+}
+
+.bio-headline {
+  font-family:'Syne', sans-serif;
+  font-size:60px;
+  font-weight:800;
+  line-height:.88;
+  margin-bottom:36px;
+}
+
+.bio-headline em { font-style:normal; color:var(--red); }
+
+.bio-body {
+  font-family:'Libre Baskerville', serif;
+  font-size:14px;
+  line-height:1.9;
+  color:var(--muted);
+  margin-bottom:20px;
+}
+
+.proof-list { list-style:none; }
+
+.proof-list li {
+  display:flex;
+  gap:16px;
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.65;
+  padding:16px 0;
+  border-bottom:1px solid var(--border);
+}
+
+.proof-list li::before {
+  content:'↗';
+  color:var(--red);
+  flex-shrink:0;
+  font-size:14px;
+}
+
+/* ── CTA ── */
+.cta {
+  background:var(--ink);
+  color:var(--bg);
+  padding:64px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:none;
+}
+
+.cta-headline {
+  font-family:'Syne', sans-serif;
+  font-size:56px;
+  font-weight:800;
+  line-height:.9;
+}
+
+.cta-headline em { font-style:normal; color:var(--red); }
+
+.cta-sub {
+  margin-top:14px;
+  font-size:12px;
+  color:rgba(242,237,228,.4);
+  max-width:400px;
+  line-height:1.7;
+}
+
+.cta-btn {
+  font-family:'Syne', sans-serif;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink);
+  background:var(--red);
+  padding:20px 44px;
+  text-decoration:none;
+  border:none;
+  cursor:pointer;
+  transition:all .2s;
+  display:inline-block;
+}
+
+.cta-btn:hover { background:var(--bg); }
+
+/* ── FOOTER ── */
+footer {
+  padding:28px 64px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+footer p { font-size:10px; color:var(--muted); letter-spacing:.06em; }
+
+/* ── UPWORK GUIDE SECTION ── */
+.guide-section {
+  background:var(--ink);
+  color:var(--bg);
+  padding:72px 64px;
+  border-bottom:none;
+}
+
+.guide-tag {
+  font-size:10px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--red);
+  margin-bottom:48px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.guide-tag::after { content:''; flex:1; height:1px; background:rgba(242,237,228,.12); }
+
+.guide-headline {
+  font-family:'Syne', sans-serif;
+  font-size:48px;
+  font-weight:800;
+  line-height:.92;
+  margin-bottom:48px;
+}
+
+.guide-headline em { font-style:normal; color:var(--red); }
+
+.steps {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:2px;
+  background:rgba(242,237,228,.08);
+}
+
+.step {
+  background:var(--ink);
+  padding:36px 36px;
+  transition:background .2s;
+}
+
+.step:hover { background:#1a1a1a; }
+
+.step-num {
+  font-family:'Syne', sans-serif;
+  font-size:48px;
+  font-weight:800;
+  color:rgba(242,237,228,.08);
+  line-height:1;
+  margin-bottom:16px;
+}
+
+.step-title {
+  font-family:'Syne', sans-serif;
+  font-size:18px;
+  font-weight:700;
+  color:var(--bg);
+  margin-bottom:12px;
+}
+
+.step-desc {
+  font-size:12px;
+  line-height:1.85;
+  color:rgba(242,237,228,.5);
+}
+
+.step-desc strong {
+  color:var(--red);
+  font-weight:500;
+}
+
+.step-action {
+  margin-top:16px;
+  font-size:10px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--red);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.step-action::before { content:'→'; }
+
+.warning-box {
+  margin-top:40px;
+  border:1px solid rgba(214,60,42,.4);
+  padding:24px 28px;
+  display:flex;
+  gap:20px;
+  align-items:flex-start;
+}
+
+.warning-box .icon { font-size:20px; flex-shrink:0; }
+
+.warning-box p {
+  font-size:12px;
+  line-height:1.8;
+  color:rgba(242,237,228,.5);
+}
+
+.warning-box strong { color:var(--bg); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">Ammar · Gaming Content Creator</div>
+  <div class="header-right">
+    Adobe Premiere Pro · YouTube SEO · Thumbnail Design<br>
+    Karachi, Pakistan · Available for Upwork
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero" style="opacity:0;animation:rise .7s .1s ease forwards;">
+  <div class="hero-eyebrow">Video Editor & YouTube Specialist · 6+ Years</div>
+  <h1 class="hero-title">264M<br>VIEWS.<br><em>EARNED.</em></h1>
+  <p class="hero-sub">I've run a YouTube gaming channel through a full cycle — growth, peak, and decline. Most editors know the software. I know the platform.</p>
+  <div class="hero-watermark">264M</div>
+</div>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stat-cell">
+    <div class="stat-num"><span class="accent">264</span>M</div>
+    <div class="stat-label">Lifetime<br>Views</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-num">9.9<span class="accent">%</span></div>
+    <div class="stat-label">Avg Click-Through<br>Rate (1.93B impressions)</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-num">565<span class="accent">K</span></div>
+    <div class="stat-label">Subscribers<br>Gained</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-num">1.29<span class="accent">yrs</span></div>
+    <div class="stat-label">Total Watch Time<br>Generated</div>
+  </div>
+</div>
+
+<!-- CHART SECTION -->
+<div class="section">
+  <div class="section-tag">Channel History · 2015 – 2026</div>
+  <div class="chart-layout">
+    <div>
+      <h2 class="chart-heading">THE FULL<br><em>STORY.</em></h2>
+      <div class="chart-wrap">
+        <svg class="chart" id="chartSvg" viewBox="0 0 900 200" preserveAspectRatio="none"></svg>
+      </div>
+      <div class="chart-xaxis" id="xaxis"></div>
+    </div>
+    <div>
+      <div class="peak-callout">
+        <div class="big">116M</div>
+        <p>Views in 2018 alone — the peak year. Stickman gaming content went viral globally. 1.9M views in a single day on Aug 18, 2018.</p>
+      </div>
+      <div class="insight-box">
+        <div class="label">The honest take</div>
+        <p>Growth was real, decline was real. I've studied both. That's what I bring to your channel — not just editing, but pattern recognition from living the full cycle.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOP VIDEOS -->
+<div class="section" style="background:var(--white);">
+  <div class="section-tag">Top Performing Videos · All Time</div>
+  <div class="table-head">
+    <span>#</span>
+    <span style="text-align:left">Title</span>
+    <span>Views</span>
+    <span>Watch Time</span>
+    <span>CTR</span>
+  </div>
+  <div id="videoList"></div>
+</div>
+
+<!-- SERVICES -->
+<div class="section">
+  <div class="section-tag">What I Offer</div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="s-num">01</div>
+      <span class="s-icon">🎬</span>
+      <div class="s-title">Video Editing</div>
+      <div class="s-desc">Clean, retention-focused edits for YouTube, Reels, Shorts, and TikTok. I understand pacing from the audience side — not just the timeline.</div>
+      <div class="s-tools">Adobe Premiere Pro</div>
+    </div>
+    <div class="service-card">
+      <div class="s-num">02</div>
+      <span class="s-icon">📐</span>
+      <div class="s-title">Thumbnail Design</div>
+      <div class="s-desc">9.9% average CTR across 1.93 billion impressions. I know what stops the scroll — bold hierarchy, clear focal points, tested against real data.</div>
+      <div class="s-tools">Photoshop · Canva</div>
+    </div>
+    <div class="service-card">
+      <div class="s-num">03</div>
+      <span class="s-icon">📊</span>
+      <div class="s-title">Channel Strategy</div>
+      <div class="s-desc">SEO-optimised titles, descriptions, and tags. Analytics interpretation. I've managed 484 videos across a full channel lifecycle — growth and decline both.</div>
+      <div class="s-tools">YouTube Studio · TubeBuddy</div>
+    </div>
+  </div>
+</div>
+
+<!-- BIO -->
+<div class="section">
+  <div class="section-tag">Why Hire Me</div>
+  <div class="bio-grid">
+    <div>
+      <h2 class="bio-headline">I'VE SEEN<br>BOTH<br><em>SIDES.</em></h2>
+      <p class="bio-body">My channel peaked at 116 million views in a single year and I've watched it decline. I know exactly what the growth phase looks like, where the plateau starts, and what signals to read when things turn.</p>
+      <p class="bio-body">Most editors have only ever worked inside someone else's operation. I built and ran mine — every role, every decision, every mistake.</p>
+    </div>
+    <ul class="proof-list">
+      <li>264M lifetime views across 484 videos — all produced and managed solo over 6+ years</li>
+      <li>9.9% average CTR across 1.93 billion impressions — top 5% globally for gaming content</li>
+      <li>9 videos surpassing 1 million views, with the top video at 58 million views</li>
+      <li>Lived through viral growth (2018–19), plateau, and decline — I can read a channel's signals</li>
+      <li>BBA degree — professional communication, clear briefs, agreed timelines, no surprises</li>
+      <li>Available for project-based work or long-term monthly retainer</li>
+    </ul>
+  </div>
+</div>
+
+<!-- UPWORK GUIDE -->
+<div class="guide-section">
+  <div class="guide-tag">How To Add This To Upwork</div>
+  <h2 class="guide-headline">ADD A <em>PROJECT</em><br>GET HIRED <em>9×</em> MORE.</h2>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Go to your Upwork Profile</div>
+      <div class="step-desc">Open <strong>upwork.com → your profile → scroll to "Portfolio"</strong> section. Click <strong>"Add Project"</strong>. This is separate from your overview text — it's a visual showcase clients see before they even read your bio.</div>
+      <div class="step-action">Profile → Portfolio → Add Project</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">Take Screenshots From Your Channel</div>
+      <div class="step-desc">Go to <strong>YouTube Studio → Analytics</strong>. Screenshot: (1) your lifetime view count, (2) your top video at 58M views, (3) your CTR graph showing 9.9%. These 3 screenshots are your portfolio images. Clients respond to real numbers, not stock photos.</div>
+      <div class="step-action">YouTube Studio → Analytics → Screenshot</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">Fill In the Project Details</div>
+      <div class="step-desc">
+        <strong>Title:</strong> "YouTube Gaming Channel — 264M Views, 9.9% CTR"<br><br>
+        <strong>Description:</strong> "Built and managed a mobile gaming YouTube channel solo for 6+ years. 484 videos published. 264M lifetime views. 9.9% average click-through rate across 1.93B impressions. 9 videos surpassing 1M views. Handled all editing (Premiere Pro), thumbnail design, SEO, and analytics end-to-end."<br><br>
+        <strong>Skills to tag:</strong> Video Editing, Adobe Premiere Pro, YouTube, Thumbnail Design, Video SEO
+      </div>
+      <div class="step-action">Copy-paste the text above exactly</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-title">Add Your Channel URL</div>
+      <div class="step-desc">Upwork lets you add a <strong>project URL</strong>. Add your YouTube channel link directly. This lets clients verify your numbers themselves — which actually builds more trust than just claiming them. Verified proof beats unverified claims every time.</div>
+      <div class="step-action">Add YouTube channel link as project URL</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">05</div>
+      <div class="step-title">Add This Portfolio Page as Project #2</div>
+      <div class="step-desc">Upload this HTML file to <strong>Google Sites, Carrd, or Notion</strong> (all free), get a shareable link, and add it as a second Upwork project titled <strong>"Analytics Portfolio — Full Channel Breakdown"</strong>. Two portfolio projects looks far more credible than one.</div>
+      <div class="step-action">carrd.co or sites.google.com → paste HTML → share link</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">06</div>
+      <div class="step-title">What About Video Samples?</div>
+      <div class="step-desc">For the job you applied to, the client wants to see editing for <strong>social media</strong>. Pick 2–3 of your YouTube videos that are well-edited, export 30-second clips, upload to <strong>Google Drive</strong> and share the link. Your Stickman Jailbreak series is your strongest — crisp cuts, clean pacing, no dead air.</div>
+      <div class="step-action">Export clips → Google Drive → share in proposal</div>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    <span class="icon">⚠️</span>
+    <p><strong>One important thing:</strong> Upwork profiles with at least one portfolio project get hired 9× more often according to Upwork's own data. But the quality of what you add matters too. Don't add blurry screenshots or vague descriptions. Use the exact copy above — it's specific, verifiable, and positions you as someone who understands the platform, not just the software.</p>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta">
+  <div>
+    <div class="cta-headline">READY TO<br>WORK WITH<br><em>ME?</em></div>
+    <p class="cta-sub">Send a message on Upwork. I respond fast, communicate clearly, and deliver on time.</p>
+  </div>
+  <a href="#" class="cta-btn">Message on Upwork →</a>
+</div>
+
+<footer>
+  <p>© 2026 · Ammar · Video Editor & YouTube Specialist · Karachi, Pakistan</p>
+  <p style="color:var(--muted)">264,797,414 views · 484 videos · 6+ years</p>
+</footer>
+
+<script>
+// ── YEARLY CHART ──
+const yearly = [
+  {y:'2015', v:5804},
+  {y:'2016', v:14562},
+  {y:'2017', v:194789},
+  {y:'2018', v:116083216},
+  {y:'2019', v:111837642},
+  {y:'2020', v:25449500},
+  {y:'2021', v:4708777},
+  {y:'2022', v:1627035},
+  {y:'2023', v:805982},
+  {y:'2024', v:3217151},
+  {y:'2025', v:714245},
+  {y:'2026', v:138711},
+];
+
+const svg = document.getElementById('chartSvg');
+const W = 900, H = 200;
+const max = Math.max(...yearly.map(d=>d.v));
+const n = yearly.length;
+
+const px = i => (i/(n-1))*W;
+const py = v => H - (v/max)*(H*0.88) - H*0.04;
+
+let path = `M ${px(0)} ${py(yearly[0].v)}`;
+for(let i=1;i<n;i++){
+  const cx1 = px(i-1)+(px(i)-px(i-1))/2;
+  const cx2 = cx1;
+  path += ` C ${cx1} ${py(yearly[i-1].v)}, ${cx2} ${py(yearly[i].v)}, ${px(i)} ${py(yearly[i].v)}`;
+}
+
+const area = path + ` L ${px(n-1)} ${H} L ${px(0)} ${H} Z`;
+
+svg.innerHTML = `
+  <defs>
+    <linearGradient id="ag" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d63c2a" stop-opacity=".25"/>
+      <stop offset="100%" stop-color="#d63c2a" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <path d="${area}" fill="url(#ag)"/>
+  <path d="${path}" fill="none" stroke="#d63c2a" stroke-width="2" stroke-linecap="round"/>
+`;
+
+// peak dot
+const peakIdx = yearly.findIndex(d=>d.y==='2018');
+svg.innerHTML += `
+  <circle cx="${px(peakIdx)}" cy="${py(yearly[peakIdx].v)}" r="5" fill="#d63c2a"/>
+  <circle cx="${px(peakIdx)}" cy="${py(yearly[peakIdx].v)}" r="10" fill="none" stroke="#d63c2a" stroke-opacity=".3" stroke-width="1.5"/>
+  <text x="${px(peakIdx)}" y="${py(yearly[peakIdx].v)-14}" text-anchor="middle" fill="#d63c2a" font-size="11" font-family="DM Mono,monospace">PEAK 2018</text>
+`;
+
+// gridlines
+[25000000, 50000000, 75000000, 100000000].forEach(v=>{
+  const y = py(v);
+  if(y>0 && y<H){
+    const label = v>=1000000 ? (v/1000000)+'M' : v.toLocaleString();
+    svg.innerHTML += `
+      <line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="rgba(14,14,14,.07)" stroke-width="1" stroke-dasharray="4,5"/>
+      <text x="6" y="${y-5}" fill="rgba(14,14,14,.3)" font-size="14" font-family="DM Mono,monospace">${label}</text>
+    `;
+  }
+});
+
+// x axis
+const xaxis = document.getElementById('xaxis');
+yearly.forEach(d=>{
+  const span = document.createElement('span');
+  span.textContent = d.y;
+  xaxis.appendChild(span);
+});
+
+// ── VIDEO TABLE ──
+const videos = [
+  {title:"Stickman Jailbreak 1 & 2", views:58418854, wt:"3.1M hrs", ctr:7.5},
+  {title:"Stickman Jailbreak 3", views:31579172, wt:"1.4M hrs", ctr:11.4},
+  {title:"Stickman Escape MadHouse", views:20636776, wt:"757K hrs", ctr:10.7},
+  {title:"Stickman Escape Lift 2", views:10875743, wt:"473K hrs", ctr:11.3},
+  {title:"Stickman Escape Lift", views:6010980, wt:"215K hrs", ctr:13.2},
+  {title:"Stickman Jailbreak 6", views:2152142, wt:"103K hrs", ctr:9.2},
+  {title:"Stickman Jailbreak 5", views:2084698, wt:"96K hrs", ctr:7.9},
+  {title:"Subway Surf: Bus Rush Hours", views:1755412, wt:"37K hrs", ctr:15.4},
+];
+
+const list = document.getElementById('videoList');
+const maxViews = videos[0].views;
+
+videos.forEach((v,i)=>{
+  const fmtV = v.views >= 1000000
+    ? (v.views/1000000).toFixed(1)+'M'
+    : (v.views/1000).toFixed(0)+'K';
+  const fillW = Math.min((v.ctr/20)*100, 100);
+  list.innerHTML += `
+    <div class="video-row">
+      <div class="v-rank">0${i+1}</div>
+      <div class="v-title">${v.title}</div>
+      <div class="v-views">${fmtV}</div>
+      <div class="v-wt">${v.wt}</div>
+      <div class="v-ctr">
+        <div class="ctr-num">${v.ctr.toFixed(1)}%</div>
+        <div class="ctr-bar"><div class="ctr-fill" style="width:${fillW}%"></div></div>
+      </div>
+    </div>
+  `;
+});
+</script>
+</body>
+</html>
